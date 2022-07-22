@@ -7,7 +7,10 @@ import "./ERC-Templates/TERC721.sol";
 contract Deployer {
     constructor() {}
 
-    function genericERC721(string memory _freshName, string memory _freshSymbol) public {
-        new TERC721(_freshName, _freshSymbol);
+    event genericERC721Deployer(address _deployer, address _contract);
+
+    function genericERC721(string memory _name, string memory _symbol) public {
+        TERC721 terc = new TERC721(_name, _symbol);
+        emit genericERC721Deployer(msg.sender, address(terc));
     }
 }
