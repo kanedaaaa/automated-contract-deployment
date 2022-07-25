@@ -6,6 +6,8 @@ import "./ERC-Templates/TERC721.sol";
 
 contract Deployer {
     constructor() {}
+    
+    mapping(address => address[]) private contractByUser;
 
     event genericERC721Deployer(address _deployer, address _contract);
 
@@ -25,6 +27,11 @@ contract Deployer {
             _maxTokens,
             _pricePerToken
         );
+        contractByUser[msg.sender].push(address(terc));
         emit genericERC721Deployer(msg.sender, address(terc));
+    }
+
+    function getDeployedContractAddress(address _user) public view returns (address[] memory) {
+        return contractByUser[_user];
     }
 }
