@@ -10,7 +10,7 @@ choose template ERC from `ERC-Templates/` and provide information about name, sy
 In `ERC-Templates/` we can house any ERC contract with any custom logic. Sometimes it is required to modify
 base ERC contract to achieve such funtionality, but nothing too huge. 
 
-~Also, since in Solidity it's impossible to return value externally from non-view function (state modifier funcs),
+~~Also, since in Solidity it's impossible to return value externally from non-view function (state modifier funcs),
 we will just throw events containing the address of child contract. It is not stored in mapping or array, just
 to avoid extra gas usage, and in general, there is no real need to store them either way.~~ Address of deployed contract is stored in mapping of `address => address[]` where first address stands for `msg.sender` and second is the deployed contract itself. Events are cool but based on some testing, not very reliable. Prolly just a hardhat thing, but anyways. Ther is getter function called `getDeployedContractAddress(address _user)` that will return an array
 containing all the deployed addresses associated to `msg.sender`. 
