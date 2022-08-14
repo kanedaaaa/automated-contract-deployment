@@ -4,6 +4,11 @@ pragma solidity ^0.8.11;
 
 import "./ERC-Templates/TERC721.sol";
 
+/**
+* Deployer contract. Will deploy template ERC's with 
+* provided information.
+ */
+
 contract Deployer {
     constructor() {}
     
@@ -11,6 +16,13 @@ contract Deployer {
 
     event genericERC721Deployer(address _deployer, address _contract);
 
+    /**
+    * @notice generic ERC721 stands for ERC721Enumerable
+    * @param _name -> including symbol, startURi, etc: standard
+    * ERC721 information
+    *
+    * Will deploy template ERC721 with given info. 
+     */
     function genericERC721(
         string memory _name,
         string memory _symbol,
@@ -31,6 +43,10 @@ contract Deployer {
         emit genericERC721Deployer(msg.sender, address(terc));
     }
 
+    /**
+    * @notice for the sake of testing, there is no actual production
+    * need to have it. 
+     */
     function getDeployedContractAddress(address _user) public view returns (address[] memory) {
         return contractByUser[_user];
     }

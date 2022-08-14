@@ -9,6 +9,10 @@ import "../ERC-Contracts/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+* Implementation of generic ERC721 contract with Enumerable
+* extension from Openzeppelin
+ */
 contract TERC721 is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
