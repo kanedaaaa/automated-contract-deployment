@@ -1,5 +1,7 @@
 # Automated Contract Deployment Script
 
+![license](https://img.shields.io/badge/license-MIT-red?style=for-the-badge)
+
 **REFACTOR**
 
 With the new, much improved and minimized version of automated contract deployment script, any1 can deploy their own
