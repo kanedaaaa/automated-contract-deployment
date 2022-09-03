@@ -1,19 +1,14 @@
-# Automated Token Deployment Script
+# Automated Contract Deployment Script
 
-Automated token deployment is using contract-to-contract deployment pattern, where mother contract
-can deploy other various contracts. Idea is to create simple user interface where anybody can input
-information about their desired token (ERC20, ERC721) and deploy them on any EVM blockchain. 
+**REFACTOR**
 
-Way it works is somewhat simple: `contracts/Deployer.sol` is a mother contract, it will let users
-choose template ERC from `ERC-Templates/` and provide information about name, symbol, total supply, etc.
+With the new, much improved and minimized version of automated contract deployment script, any1 can deploy their own
+token or contract with custom logic on multiple EVM chains. 
 
-In `ERC-Templates/` we can house any ERC contract with any custom logic. Sometimes it is required to modify
-base ERC contract to achieve such funtionality, but nothing too huge. 
+In older version, bloated and expensive contract-to-contract deployment pattern was used. But new update will make use of
+`ContractFactory` from ethers that can be easily integrated into react.js project. 
 
-~~Also, since in Solidity it's impossible to return value externally from non-view function (state modifier funcs),
-we will just throw events containing the address of child contract. It is not stored in mapping or array, just
-to avoid extra gas usage, and in general, there is no real need to store them either way.~~ Address of deployed contract is stored in mapping of `address => address[]` where first address stands for `msg.sender` and second is the deployed contract itself. Events are cool but based on some testing, not very reliable. Prolly just a hardhat thing, but anyways. Ther is getter function called `getDeployedContractAddress(address _user)` that will return an array
-containing all the deployed addresses associated to `msg.sender`. 
+`contracts/ERC-Templates` will contain all the template contracts, ready to be deployed by users. 
 
 Tests can be located in `test/` directory. 
 

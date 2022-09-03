@@ -4,10 +4,10 @@
 
 pragma solidity ^0.8.11;
 
-import "../ERC-Contracts/ERC721Enumerable.sol";
-
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
 
 /**
 * Implementation of generic ERC721 contract with Enumerable
@@ -30,8 +30,7 @@ contract TERC721 is ERC721Enumerable, Ownable {
         string memory _endUri,
         uint256 _maxTokens,
         uint256 _pricePerToken
-    ) ERC721() {
-        _setNameAndSymbol(_name, _symbol);
+    ) ERC721(_name, _symbol) {
         setUri(0, _startUri);
         setUri(1, _endUri);
 

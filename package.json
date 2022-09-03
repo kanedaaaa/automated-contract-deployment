@@ -1,12 +1,12 @@
 {
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.1",
-    "hardhat": "^2.10.1"
+    "hardhat": "^2.11.0"
   },
   "scripts": {
-		"test": "yarn hardhat test",
-		"compile": "yarn hardhat compile"
-	},
+    "test": "yarn hardhat test",
+    "compile": "yarn hardhat compile"
+  },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",

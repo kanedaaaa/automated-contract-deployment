@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.11;
 
-import "../ERC-Contracts/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract TERC20 is ERC20, Ownable {
     bool private cap;
@@ -15,8 +15,7 @@ contract TERC20 is ERC20, Ownable {
         uint256 _totalSupply,
         bool _cap,
         bool _burn
-    ) ERC20() {
-        _setNameAndSymbol(_name, _symbol, _totalSupply);
+    ) ERC20(_name, _symbol) {
         _mint(msg.sender, _totalSupply * (18**10));
 
         cap = _cap;
