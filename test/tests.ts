@@ -1,6 +1,6 @@
 import { ContractFactory } from "@ethersproject/contracts";
 import { expect } from "chai";
-import { ethers } from "ethers";
+import { ethers } from "hardhat";
 import { MockProvider } from "ethereum-waffle";
 import fs from "fs";
 
@@ -32,49 +32,86 @@ const deployContract = async (
 };
 
 describe("ERC721", async () => {
-  let token: any;
+  let erc721: any;
+  let erc20: any;
   const [wallet, user] = new MockProvider().getWallets();
-  const [abi, bytecode] = getAbiAndBytecode("TERC721");
+  //const [wallet, user] = await ethers.getSigners();
+  const [erc721abi, erc721bytecode] = getAbiAndBytecode("TERC721");
+  const [erc20abi, erc20bytecode] = getAbiAndBytecode("TERC20");
 
   beforeEach(async () => {
-    token = await deployContract(
-      abi,
-      bytecode,
-      [
-        "mockToken",
-        "MT",
-        "start",
-        "end.json",
-        10,
-        1,
-      ],
+    erc721 = await deployContract(
+      erc721abi,
+      erc721bytecode,
+      ["mockToken", "MT", "start", "end.json", 10, 1],
       wallet
     );
+
+    // erc20 = await deployContract(
+    //     erc20abi,
+    //     erc20bytecode,
+    //     [
+    //       "mockToken",
+    //       "MT",
+    //       "start",
+    //       "end.json",
+    //       10,
+    //       1,
+    //     ],
+    //     wallet
+    //   );
   });
 
   it("Happy Path", async () => {
     // basic info
-    const name = await token.contract.name();
-    const symbol = await token.contract.symbol();
+    const name = await erc721.contract.name();
+    const symbol = await erc721.contract.symbol();
 
     expect(name).to.equal("mockToken");
     expect(symbol).to.equal("MT");
 
     // mint process
-    await token.contract.connect(wallet).setMintingAllowed(true);
-    await token.contract
+    await erc721.contract.connect(wallet).setMintingAllowed(true);
+    await erc721.contract
       .connect(user)
       .mint(1, { value: ethers.utils.parseEther("1.0") });
 
-    const owner = await token.contract.ownerOf(0);
+    const owner = await erc721.contract.ownerOf(0);
     expect(owner).to.equal(user.address);
 
-    // token uri check
-    const uri = await token.contract.tokenURI(0);
+    // erc721 uri check
+    const uri = await erc721.contract.tokenURI(0);
     expect(uri).to.equal("start0end.json");
   });
 
-  it("Sad Path", async () => {});
+  it("Sad Path", async () => {
+    // mint when minting isnt allowed
+    // expect(
+    //   erc721.contract
+    //     .connect(user)
+    //     .mint(1, { value: ethers.utils.parseEther("1.0") })
+    // ).to.be.reverted;
+
+    // above test doesnt fcking works because prolly mockprovider is messing
+    // with hardhat chai matchers. i mean prolly thats the case as hardhat is
+    // telling me to use either one only but rn i dont have other solution.
+    // btw it does works as expected but not in a testing context
+
+    // mint with ins funds
+    await erc721.contract.connect(wallet).setMintingAllowed(true);
+    expect(
+      erc721.contract
+        .connect(user)
+        .mint(1, { value: ethers.utils.parseEther("0.9") })
+    ).to.be.reverted;
+
+    // mint more than ts
+    expect(
+      erc721.contract
+        .connect(user)
+        .mint(11, { value: ethers.utils.parseEther("11") })
+    ).to.be.reverted;
+  });
 });
 
 describe("ERC20", async () => {
