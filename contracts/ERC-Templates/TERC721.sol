@@ -46,7 +46,7 @@ contract TERC721 is ERC721Enumerable, Ownable {
             totalSupply() + _amount <= MAX_TOKENS,
             "Amount exceeds max tokens"
         );
-        require(msg.value >= _amount * PRICE_PER_TOKEN, "Insufficient funds");
+        require(msg.value >= _amount * PRICE_PER_TOKEN*(10**18), "Insufficient funds");
 
         for (uint256 i = 0; i < _amount; i++) {
             _safeMint(msg.sender, totalSupply());

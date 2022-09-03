@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@ethersproject/contracts": "^5.7.0",
     "@openzeppelin/contracts": "^4.7.1",
+    "ethereum-waffle": "^3.4.4",
+    "ganache-cli": "^6.12.2",
     "hardhat": "^2.11.0"
   },
   "scripts": {
