@@ -16,7 +16,7 @@ contract TERC20 is ERC20, Ownable {
         bool _cap,
         bool _burn
     ) ERC20(_name, _symbol) {
-        _mint(msg.sender, _totalSupply);
+        mint(_totalSupply, msg.sender);
 
         cap = _cap;
         burnable = _burn;
