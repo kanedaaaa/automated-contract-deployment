@@ -25,7 +25,7 @@ contract TERC20 is ERC20, Ownable {
     function mint(uint256 _amount, address _to) public onlyOwner {
         require(!cap, "TERC20: Capped supply");
 
-        _mint(_to, _amount * (18**10));
+        _mint(_to, _amount * (10**18));
     }
 
     function burn(address _from, uint256 _amount) public {
