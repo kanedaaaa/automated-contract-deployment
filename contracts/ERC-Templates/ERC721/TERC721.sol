@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: MIT
 
-//TODO burn
-
 pragma solidity ^0.8.11;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-
 /**
-* Implementation of generic ERC721 contract with Enumerable
-* extension from Openzeppelin
+ * Implementation of generic ERC721 contract with Enumerable
+ * extension from Openzeppelin
  */
 contract TERC721 is ERC721Enumerable, Ownable {
     using Strings for uint256;
@@ -33,11 +30,8 @@ contract TERC721 is ERC721Enumerable, Ownable {
     ) ERC721(_name, _symbol) {
         setUri(0, _startUri);
         setUri(1, _endUri);
-
-        START_URI = _startUri;
-        END_URI = _endUri;
-        MAX_TOKENS = _maxTokens;
-        PRICE_PER_TOKEN = _pricePerToken;
+        setMaxTokens(_maxTokens);
+        setPricePerToken(_pricePerToken);
     }
 
     function mint(uint256 _amount) public payable {
@@ -46,11 +40,18 @@ contract TERC721 is ERC721Enumerable, Ownable {
             totalSupply() + _amount <= MAX_TOKENS,
             "Amount exceeds max tokens"
         );
-        require(msg.value >= _amount * PRICE_PER_TOKEN*(10**18), "Insufficient funds");
+        require(
+            msg.value >= _amount * PRICE_PER_TOKEN * (10**18),
+            "Insufficient funds"
+        );
 
         for (uint256 i = 0; i < _amount; i++) {
             _safeMint(msg.sender, totalSupply());
         }
+    }
+
+    function burn(uint256 id) public {
+        _burn(id);
     }
 
     function setMintingAllowed(bool _value) public onlyOwner {
@@ -82,9 +83,6 @@ contract TERC721 is ERC721Enumerable, Ownable {
         override
         returns (string memory)
     {
-        return
-            string(
-                abi.encodePacked(START_URI, tokenId.toString(), END_URI)
-            );
+        return string(abi.encodePacked(START_URI, tokenId.toString(), END_URI));
     }
 }
